@@ -28,10 +28,10 @@ export function ContactSection() {
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-5xl font-bold text-[#111111] mb-4">
-              Let's Create Something Special
+              Let&apos;s Create Something Special
             </h2>
             <p className="text-lg text-[#6B7280] max-w-2xl mx-auto">
-              Have a custom order in mind? Get in touch and we'll bring your vision to life.
+              Have a custom order in mind? Get in touch and we&apos;ll bring your vision to life.
             </p>
           </div>
 

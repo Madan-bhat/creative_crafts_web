@@ -36,7 +36,7 @@ export function AboutSection() {
               <div className="space-y-4 text-[#6B7280]">
                 <p>
                   At Creative Crafts, we believe every special moment deserves something
-                  equally special. That's why we handcraft each piece with care, attention,
+                  equally special. That&apos;s why we handcraft each piece with care, attention,
                   and a personal touch.
                 </p>
                 <p>
@@ -45,7 +45,7 @@ export function AboutSection() {
                   ensuring every detail reflects your story and emotions.
                 </p>
                 <p>
-                  Whether it's resin art, personalized frames, or bespoke gift boxes,
+                  Whether it&apos;s resin art, personalized frames, or bespoke gift boxes,
                   we pour love into every creation. Because the best gifts are the ones
                   made just for you.
                 </p>
@@ -67,10 +67,10 @@ export function AboutSection() {
               <div className="text-center p-8">
                 <Quote className="w-16 h-16 text-[#111111] mx-auto mb-4" />
                 <p className="text-xl md:text-2xl font-medium text-[#111111] mb-2">
-                  "Made with love,
+                  &quot;Made with love,
                 </p>
                 <p className="text-xl md:text-2xl font-medium text-[#6B7280]">
-                  Crafted for you"
+                  Crafted for you&quot;
                 </p>
               </div>
             </div>
@@ -87,7 +87,7 @@ export function AboutSection() {
                   <CardContent className="p-6">
                     <Quote className="w-8 h-8 text-[#6B7280] mb-4" />
                     <p className="text-[#6B7280] mb-4 italic">
-                      "{testimonial.text}"
+                      &quot;{testimonial.text}&quot;
                     </p>
                     <div>
                       <p className="font-semibold text-[#111111]">

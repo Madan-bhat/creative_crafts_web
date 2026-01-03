@@ -24,7 +24,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { Plus, Edit, Trash2, Eye, EyeOff } from "lucide-react"
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createBrowserClient } from '@supabase/ssr'
 import { useToast } from "@/components/ui/use-toast"
 import type { Database } from "@/types/database"
 
@@ -41,7 +41,10 @@ export default function CategoriesPage() {
     description: "",
   })
 
-  const supabase = createClientComponentClient<Database>()
+  const supabase = createBrowserClient<Database>(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  )
   const { toast } = useToast()
 
   useEffect(() => {
@@ -88,9 +91,15 @@ export default function CategoriesPage() {
 
     try {
       if (editingCategory) {
+        const updateData: Partial<Category> = {
+          name: formData.name,
+          slug: formData.slug,
+          description: formData.description
+        }
+        
         const { error } = await supabase
           .from('categories')
-          .update(formData)
+          .update(updateData)
           .eq('id', editingCategory.id)
 
         if (error) throw error
