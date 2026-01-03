@@ -4,7 +4,7 @@ import { VisualFocusSection } from "@/components/VisualFocusSection"
 import { CatalogSection } from "@/components/CatalogSection"
 import { AboutSection } from "@/components/AboutSection"
 import { ContactSection } from "@/components/ContactSection"
-import { Footer } from "@/components/Footer"
+import { Footer } from "@/components/footer"
 
 export default async function Home() {
   return (
@@ -16,7 +16,7 @@ export default async function Home() {
       <AboutSection />
       <ContactSection />
       <Footer />
-      
+
     </main>
   )
 }
