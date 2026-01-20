@@ -27,11 +27,11 @@ export function ContactSection() {
       <div className="container mx-auto px-4">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-5xl font-bold text-[#111111] mb-4">
-              Let&apos;s Create Something Special
+            <h2 className="text-3xl md:text-5xl font-bold text-[#1F1A17] mb-4">
+              Let&apos;s create something special
             </h2>
-            <p className="text-lg text-[#6B7280] max-w-2xl mx-auto">
-              Have a custom order in mind? Get in touch and we&apos;ll bring your vision to life.
+            <p className="text-lg text-[#5B514A] max-w-2xl mx-auto">
+              Have a custom order in mind? Tell us the occasion and we&apos;ll shape a keepsake that fits it perfectly.
             </p>
           </div>
 
@@ -54,7 +54,7 @@ export function ContactSection() {
                       required
                     />
                   </div>
-                  
+
                   <div>
                     <label className="block text-sm font-medium text-[#111111] mb-2">
                       Phone / Email
@@ -69,7 +69,7 @@ export function ContactSection() {
                       required
                     />
                   </div>
-                  
+
                   <div>
                     <label className="block text-sm font-medium text-[#111111] mb-2">
                       Your Message
@@ -84,13 +84,13 @@ export function ContactSection() {
                       required
                     />
                   </div>
-                  
+
                   <Button
                     type="submit"
                     size="lg"
-                    className="w-full bg-[#111111] hover:bg-[#111111]/90 text-white"
+                    className="w-full bg-[#C67753] hover:bg-[#b96949] text-white shadow-sm"
                   >
-                    Send Message
+                    Send message
                   </Button>
                 </form>
               </CardContent>
@@ -99,18 +99,18 @@ export function ContactSection() {
             {/* Contact Info & CTA */}
             <div className="space-y-6">
               {/* WhatsApp CTA */}
-              <Card className="bg-gradient-to-br from-green-50 to-emerald-50 border-green-200">
+              <Card className="bg-gradient-to-br from-[#F4E7DC] via-white to-[#F7DCCB] border-[#E7D8CC]">
                 <CardContent className="p-8 text-center">
-                  <MessageCircle className="w-16 h-16 text-green-600 mx-auto mb-4" />
-                  <h3 className="text-xl font-bold text-[#111111] mb-2">
-                    Quick Enquiry on WhatsApp
+                  <MessageCircle className="w-16 h-16 text-[#C67753] mx-auto mb-4" />
+                  <h3 className="text-xl font-bold text-[#1F1A17] mb-2">
+                    Quick enquiry on WhatsApp
                   </h3>
-                  <p className="text-[#6B7280] mb-6">
-                    Get instant responses to your queries
+                  <p className="text-[#5B514A] mb-6">
+                    Fast answers on availability, pricing, and timelines.
                   </p>
                   <Button
                     size="lg"
-                    className="bg-green-600 hover:bg-green-700 text-white w-full"
+                    className="bg-[#C67753] hover:bg-[#b96949] text-white w-full shadow-sm"
                     asChild
                   >
                     <Link
@@ -129,14 +129,14 @@ export function ContactSection() {
               {/* Contact Details */}
               <div className="space-y-4">
                 <div className="flex items-start gap-4">
-                  <Instagram className="w-6 h-6 text-[#111111] mt-1" />
+                  <Instagram className="w-6 h-6 text-[#C67753] mt-1" />
                   <div>
-                    <h4 className="font-semibold text-[#111111] mb-1">Instagram</h4>
+                    <h4 className="font-semibold text-[#1F1A17] mb-1">Instagram</h4>
                     <Link
                       href="https://instagram.com"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#6B7280] hover:text-[#111111] transition-colors"
+                      className="text-[#5B514A] hover:text-[#C67753] transition-colors"
                     >
                       @creativecrafts
                     </Link>
@@ -144,12 +144,12 @@ export function ContactSection() {
                 </div>
 
                 <div className="flex items-start gap-4">
-                  <Mail className="w-6 h-6 text-[#111111] mt-1" />
+                  <Mail className="w-6 h-6 text-[#C67753] mt-1" />
                   <div>
-                    <h4 className="font-semibold text-[#111111] mb-1">Email</h4>
+                    <h4 className="font-semibold text-[#1F1A17] mb-1">Email</h4>
                     <a
                       href="mailto:hello@creativecrafts.com"
-                      className="text-[#6B7280] hover:text-[#111111] transition-colors"
+                      className="text-[#5B514A] hover:text-[#C67753] transition-colors"
                     >
                       hello@creativecrafts.com
                     </a>
@@ -157,10 +157,10 @@ export function ContactSection() {
                 </div>
 
                 <div className="flex items-start gap-4">
-                  <MapPin className="w-6 h-6 text-[#111111] mt-1" />
+                  <MapPin className="w-6 h-6 text-[#C67753] mt-1" />
                   <div>
-                    <h4 className="font-semibold text-[#111111] mb-1">Location</h4>
-                    <p className="text-[#6B7280]">
+                    <h4 className="font-semibold text-[#1F1A17] mb-1">Location</h4>
+                    <p className="text-[#5B514A]">
                       Mumbai, India<br />
                       Serving customers nationwide
                     </p>

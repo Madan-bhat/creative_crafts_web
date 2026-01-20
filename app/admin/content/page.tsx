@@ -22,10 +22,12 @@ export default function ContentPage() {
   const { toast } = useToast()
 
   const sections = [
-    { id: 'hero', title: 'Hero Section', fields: ['title', 'description'] },
-    { id: 'about', title: 'About Section', fields: ['title', 'description'] },
-    { id: 'contact', title: 'Contact Information', fields: ['title', 'description'] },
-    { id: 'footer', title: 'Footer', fields: ['title', 'description'] },
+    { id: 'hero', title: 'Hero Section', fields: ['title', 'description'] as const },
+    { id: 'hero_media', title: 'Hero Image', fields: ['title', 'description'] as const },
+    { id: 'about', title: 'About Section', fields: ['title', 'description'] as const },
+    { id: 'contact', title: 'Contact Information', fields: ['title', 'description'] as const },
+    { id: 'testimonials', title: 'Testimonials Section', fields: ['title', 'description'] as const },
+    { id: 'footer', title: 'Footer', fields: ['title', 'description'] as const },
   ]
 
   useEffect(() => {
@@ -124,44 +126,56 @@ export default function ContentPage() {
       <h1 className="text-3xl font-bold text-[#111111] mb-6">Site Content</h1>
 
       <div className="space-y-6">
-        {sections.map((section) => (
-          <Card key={section.id}>
-            <CardHeader>
-              <CardTitle>{section.title}</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <div>
-                  <Label htmlFor={`${section.id}-title`}>Title</Label>
-                  <Input
-                    id={`${section.id}-title`}
-                    value={content[section.id]?.title || ''}
-                    onChange={(e) => updateField(section.id, 'title', e.target.value)}
-                  />
-                </div>
+        {sections.map((section) => {
+          const titleLabel = section.id === 'hero_media' ? 'Alt text (for accessibility)' : 'Title'
+          const descriptionLabel = section.id === 'hero_media' ? 'Image URL' : 'Description'
+          return (
+            <Card key={section.id}>
+              <CardHeader>
+                <CardTitle>{section.title}</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div>
+                    <Label htmlFor={`${section.id}-title`}>{titleLabel}</Label>
+                    {section.id === 'hero' && (
+                      <p className="text-xs text-[#5B514A] mb-2">Keep it punchy and emotional. Include urgency if possible.</p>
+                    )}
+                    <Input
+                      id={`${section.id}-title`}
+                      value={content[section.id]?.title || ''}
+                      onChange={(e) => updateField(section.id, 'title', e.target.value)}
+                      placeholder={section.id === 'hero_media' ? 'e.g. Handmade resin art on wooden table' : ''}
+                    />
+                  </div>
 
-                <div>
-                  <Label htmlFor={`${section.id}-description`}>Description</Label>
-                  <Textarea
-                    id={`${section.id}-description`}
-                    value={content[section.id]?.description || ''}
-                    onChange={(e) => updateField(section.id, 'description', e.target.value)}
-                    rows={4}
-                  />
-                </div>
+                  <div>
+                    <Label htmlFor={`${section.id}-description`}>{descriptionLabel}</Label>
+                    {section.id === 'hero' && (
+                      <p className="text-xs text-[#5B514A] mb-2">Short, scannable copy. 2-3 sentences max. Focus on emotion, not features.</p>
+                    )}
+                    <Textarea
+                      id={`${section.id}-description`}
+                      value={content[section.id]?.description || ''}
+                      onChange={(e) => updateField(section.id, 'description', e.target.value)}
+                      rows={section.id === 'hero' ? 3 : 4}
+                      placeholder={section.id === 'hero_media' ? 'https://...' : ''}
+                    />
+                  </div>
 
-                <Button
-                  onClick={() => handleSave(section.id)}
-                  disabled={saving === section.id}
-                  className="bg-[#111111] hover:bg-[#111111]/90"
-                >
-                  <Save size={16} className="mr-2" />
-                  {saving === section.id ? 'Saving...' : 'Save Changes'}
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
+                  <Button
+                    onClick={() => handleSave(section.id)}
+                    disabled={saving === section.id}
+                    className="bg-[#111111] hover:bg-[#111111]/90"
+                  >
+                    <Save size={16} className="mr-2" />
+                    {saving === section.id ? 'Saving...' : 'Save Changes'}
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          )
+        })}
       </div>
     </div>
   )

@@ -1,39 +1,44 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
- 
+
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 7%;
+    --background: 35 33% 97%;
+    /* warm neutral base */
+    --foreground: 25 20% 12%;
     --card: 0 0% 100%;
-    --card-foreground: 0 0% 7%;
+    --card-foreground: 25 20% 12%;
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 7%;
-    --primary: 0 0% 7%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 0 0% 96%;
-    --secondary-foreground: 0 0% 7%;
-    --muted: 0 0% 96%;
-    --muted-foreground: 0 0% 42%;
-    --accent: 0 0% 96%;
-    --accent-foreground: 0 0% 7%;
+    --popover-foreground: 25 20% 12%;
+    --primary: 18 45% 45%;
+    /* terracotta accent */
+    --primary-foreground: 30 50% 97%;
+    --secondary: 30 25% 92%;
+    --secondary-foreground: 25 20% 20%;
+    --muted: 30 30% 94%;
+    --muted-foreground: 25 12% 42%;
+    --accent: 18 45% 45%;
+    --accent-foreground: 30 50% 97%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
     --border: 0 0% 89.8%;
     --input: 0 0% 89.8%;
-    --ring: 0 0% 7%;
+    --ring: 18 45% 45%;
     --radius: 0.5rem;
   }
 }
- 
+
 @layer base {
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
+    font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    letter-spacing: 0.01em;
   }
 }
 
@@ -41,9 +46,11 @@
   .animate-delay-200 {
     animation-delay: 200ms;
   }
+
   .animate-delay-400 {
     animation-delay: 400ms;
   }
+
   .animate-delay-600 {
     animation-delay: 600ms;
   }

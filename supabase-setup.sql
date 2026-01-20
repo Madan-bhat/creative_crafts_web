@@ -27,6 +27,15 @@ CREATE TABLE IF NOT EXISTS products (
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
+-- Product Images Table (supports multiple images per product)
+CREATE TABLE IF NOT EXISTS product_images (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    product_id UUID NOT NULL REFERENCES products(id) ON DELETE CASCADE,
+    url TEXT NOT NULL,
+    position INTEGER DEFAULT 0,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
 -- Site Content Table
 CREATE TABLE IF NOT EXISTS site_content (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -34,6 +43,16 @@ CREATE TABLE IF NOT EXISTS site_content (
     title TEXT NOT NULL,
     description TEXT NOT NULL,
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Testimonials Table
+CREATE TABLE IF NOT EXISTS testimonials (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    name TEXT NOT NULL,
+    role TEXT NOT NULL,
+    text TEXT NOT NULL,
+    is_active BOOLEAN DEFAULT true,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Create Storage Bucket for Product Images
@@ -121,6 +140,29 @@ ON products FOR DELETE
 TO authenticated
 USING (true);
 
+-- RLS Policies for Product Images
+ALTER TABLE product_images ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Anyone can view product images"
+ON product_images FOR SELECT
+TO public
+USING (true);
+
+CREATE POLICY "Authenticated users can insert product images"
+ON product_images FOR INSERT
+TO authenticated
+WITH CHECK (true);
+
+CREATE POLICY "Authenticated users can update product images"
+ON product_images FOR UPDATE
+TO authenticated
+USING (true);
+
+CREATE POLICY "Authenticated users can delete product images"
+ON product_images FOR DELETE
+TO authenticated
+USING (true);
+
 -- RLS Policies for Site Content
 ALTER TABLE site_content ENABLE ROW LEVEL SECURITY;
 
@@ -139,6 +181,34 @@ ON site_content FOR INSERT
 TO authenticated
 WITH CHECK (true);
 
+-- RLS Policies for Testimonials
+ALTER TABLE testimonials ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Anyone can view active testimonials"
+ON testimonials FOR SELECT
+TO public
+USING (is_active = true);
+
+CREATE POLICY "Authenticated users can view all testimonials"
+ON testimonials FOR SELECT
+TO authenticated
+USING (true);
+
+CREATE POLICY "Authenticated users can insert testimonials"
+ON testimonials FOR INSERT
+TO authenticated
+WITH CHECK (true);
+
+CREATE POLICY "Authenticated users can update testimonials"
+ON testimonials FOR UPDATE
+TO authenticated
+USING (true);
+
+CREATE POLICY "Authenticated users can delete testimonials"
+ON testimonials FOR DELETE
+TO authenticated
+USING (true);
+
 -- Insert Default Categories
 INSERT INTO categories (name, slug, description) VALUES
 ('Wedding Keepsakes', 'wedding-keepsakes', 'Custom wedding gifts and keepsakes'),
@@ -149,7 +219,7 @@ ON CONFLICT (slug) DO NOTHING;
 
 -- Insert Default Site Content
 INSERT INTO site_content (section, title, description) VALUES
-('hero', 'Handmade Crafts, Made Personal', 'Custom gifts, wedding keepsakes, and resin art—crafted with care, emotion, and detail.'),
+('hero', 'Handmade Crafts, Made Personal — For Moments That Matter', 'Custom gifts & wedding keepsakes, hand-crafted with care and emotion.'),
 ('about', 'Handcrafted with Heart', 'At Creative Crafts, we believe every special moment deserves something equally special. That''s why we handcraft each piece with care, attention, and a personal touch.'),
 ('contact', 'Let''s Create Something Special', 'Have a custom order in mind? Get in touch and we''ll bring your vision to life.'),
 ('footer', 'Creative Crafts', 'Handmade crafts, made personal. Creating memories, one piece at a time.')
@@ -160,3 +230,4 @@ CREATE INDEX IF NOT EXISTS idx_products_category ON products(category_id);
 CREATE INDEX IF NOT EXISTS idx_products_featured ON products(is_featured) WHERE is_featured = true;
 CREATE INDEX IF NOT EXISTS idx_products_active ON products(is_active) WHERE is_active = true;
 CREATE INDEX IF NOT EXISTS idx_categories_active ON categories(is_active) WHERE is_active = true;
+CREATE INDEX IF NOT EXISTS idx_product_images_product ON product_images(product_id);

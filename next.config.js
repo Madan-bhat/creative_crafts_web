@@ -1,4 +1,6 @@
 /** @type {import('next').NextConfig} */
+
+require('dotenv').config()
 const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
@@ -7,7 +9,11 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
-    domains: [],
+    domains: [
+      'gukjwxqepfbwkdspkoly.supabase.co',
+      'images.unsplash.com',
+      'cdn.sanity.io',
+    ],
   },
 }
 

@@ -23,13 +23,14 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { Plus, Edit, Trash2, Eye, EyeOff, Star, Upload, Image as ImageIcon } from "lucide-react"
+import { Plus, Edit, Trash2, Eye, EyeOff, Star, Image as ImageIcon, X } from "lucide-react"
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useToast } from "@/components/ui/use-toast"
 import type { Database } from "@/types/database"
 
 type Product = Database['public']['Tables']['products']['Row']
 type Category = Database['public']['Tables']['categories']['Row']
+type ProductImage = Database['public']['Tables']['product_images']['Row']
 
 export default function ProductsPage() {
   const [products, setProducts] = useState<Product[]>([])
@@ -40,6 +41,9 @@ export default function ProductsPage() {
   const [uploading, setUploading] = useState(false)
   const [imageFile, setImageFile] = useState<File | null>(null)
   const [imagePreview, setImagePreview] = useState<string | null>(null)
+  const [productImages, setProductImages] = useState<ProductImage[]>([])
+  const [extraImageFiles, setExtraImageFiles] = useState<File[]>([])
+  const [extraPreviews, setExtraPreviews] = useState<string[]>([])
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -88,6 +92,44 @@ export default function ProductsPage() {
     setCategories(data || [])
   }
 
+  const fetchProductImages = async (productId: string) => {
+    const { data, error } = await supabase
+      .from('product_images')
+      .select('*')
+      .eq('product_id', productId)
+      .order('position', { ascending: true, nullsFirst: true })
+      .order('created_at', { ascending: true })
+
+    if (error) {
+      toast({ title: "Error", description: "Failed to load product images", variant: "destructive" })
+      return
+    }
+
+    setProductImages(data || [])
+  }
+
+  const deleteProductImage = async (image: ProductImage) => {
+    try {
+      const { error } = await supabase
+        .from('product_images')
+        .delete()
+        .eq('id', image.id)
+
+      if (error) throw error
+
+      const prefix = '/product-images/'
+      const path = image.url.includes(prefix) ? image.url.split(prefix)[1] : null
+      if (path) {
+        await supabase.storage.from('product-images').remove([path])
+      }
+
+      setProductImages((prev) => prev.filter((img) => img.id !== image.id))
+      toast({ title: "Removed", description: "Image removed from gallery" })
+    } catch (err) {
+      toast({ title: "Error", description: "Failed to remove image", variant: "destructive" })
+    }
+  }
+
   const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (file) {
@@ -107,6 +149,36 @@ export default function ProductsPage() {
       }
       reader.readAsDataURL(file)
     }
+  }
+
+  const handleExtraImagesSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []).slice(0, 6)
+    if (!files.length) return
+
+    const validFiles = files.filter((file) => {
+      if (file.size > 5 * 1024 * 1024) {
+        toast({
+          title: "Error",
+          description: `${file.name} is larger than 5MB`,
+          variant: "destructive",
+        })
+        return false
+      }
+      return true
+    })
+
+    setExtraImageFiles(validFiles)
+
+    Promise.all(
+      validFiles.map(
+        (file) =>
+          new Promise<string>((resolve) => {
+            const reader = new FileReader()
+            reader.onloadend = () => resolve(reader.result as string)
+            reader.readAsDataURL(file)
+          })
+      )
+    ).then(setExtraPreviews)
   }
 
   const uploadImage = async (file: File): Promise<string | null> => {
@@ -136,12 +208,18 @@ export default function ProductsPage() {
     }
   }
 
+  const uploadImages = async (files: File[]): Promise<string[]> => {
+    const uploads = await Promise.all(files.map(uploadImage))
+    return uploads.filter((url): url is string => Boolean(url))
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setUploading(true)
 
     try {
       let imageUrl = formData.image_url
+      let productId = editingProduct?.id || null
 
       if (imageFile) {
         const uploadedUrl = await uploadImage(imageFile)
@@ -164,12 +242,31 @@ export default function ProductsPage() {
         if (error) throw error
         toast({ title: "Success", description: "Product updated successfully" })
       } else {
-        const { error } = await supabase
+        const { data, error } = await supabase
           .from('products')
           .insert([productData])
+          .select()
+          .single()
 
         if (error) throw error
+        productId = data?.id || null
         toast({ title: "Success", description: "Product created successfully" })
+      }
+
+      if (productId && extraImageFiles.length > 0) {
+        const uploadedUrls = await uploadImages(extraImageFiles)
+        if (uploadedUrls.length) {
+          const startPosition = productImages.length
+          const payload = uploadedUrls.map((url, idx) => ({
+            product_id: productId as string,
+            url,
+            position: startPosition + idx,
+          }))
+          const { error: galleryError } = await supabase
+            .from('product_images')
+            .insert(payload)
+          if (galleryError) throw galleryError
+        }
       }
 
       handleCloseDialog()
@@ -197,6 +294,9 @@ export default function ProductsPage() {
       is_active: product.is_active,
     })
     setImagePreview(product.image_url)
+    setExtraImageFiles([])
+    setExtraPreviews([])
+    fetchProductImages(product.id)
     setDialogOpen(true)
   }
 
@@ -253,6 +353,9 @@ export default function ProductsPage() {
     setEditingProduct(null)
     setImageFile(null)
     setImagePreview(null)
+    setProductImages([])
+    setExtraImageFiles([])
+    setExtraPreviews([])
   }
 
   const getCategoryName = (categoryId: string) => {
@@ -356,6 +459,53 @@ export default function ProductsPage() {
                   </div>
                 </div>
 
+                <div>
+                  <div className="flex items-center justify-between">
+                    <Label>Gallery Images (optional)</Label>
+                    <span className="text-xs text-gray-500">Up to 6 images, 5MB each</span>
+                  </div>
+                  {productImages.length > 0 && (
+                    <div className="grid grid-cols-3 gap-3 mt-3">
+                      {productImages.map((img) => (
+                        <div key={img.id} className="relative group">
+                          <div className="w-full h-24 rounded-lg overflow-hidden bg-gray-100">
+                            <img src={img.url} alt="Gallery" className="w-full h-full object-cover" />
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => deleteProductImage(img)}
+                            className="absolute top-1 right-1 bg-white/90 rounded-full p-1 shadow hover:bg-white"
+                            aria-label="Remove image"
+                          >
+                            <X size={14} />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {extraPreviews.length > 0 && (
+                    <div className="grid grid-cols-3 gap-3 mt-3">
+                      {extraPreviews.map((preview, idx) => (
+                        <div key={idx} className="w-full h-24 rounded-lg overflow-hidden bg-gray-100">
+                          <img src={preview} alt="New upload preview" className="w-full h-full object-cover" />
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  <div className="mt-3">
+                    <Input
+                      type="file"
+                      accept="image/*"
+                      multiple
+                      onChange={handleExtraImagesSelect}
+                      className="cursor-pointer"
+                    />
+                    <p className="text-xs text-gray-500 mt-1">These will appear after the primary image.</p>
+                  </div>
+                </div>
+
                 <div className="flex gap-4">
                   <label className="flex items-center gap-2 cursor-pointer">
                     <input
@@ -435,21 +585,19 @@ export default function ProductsPage() {
                       <div className="flex gap-2">
                         <button
                           onClick={() => toggleField(product, 'is_active')}
-                          className={`px-2 py-1 rounded text-xs font-medium ${
-                            product.is_active
-                              ? "bg-green-100 text-green-700"
-                              : "bg-gray-100 text-gray-700"
-                          }`}
+                          className={`px-2 py-1 rounded text-xs font-medium ${product.is_active
+                            ? "bg-green-100 text-green-700"
+                            : "bg-gray-100 text-gray-700"
+                            }`}
                         >
                           {product.is_active ? <Eye size={12} /> : <EyeOff size={12} />}
                         </button>
                         <button
                           onClick={() => toggleField(product, 'is_featured')}
-                          className={`px-2 py-1 rounded text-xs font-medium ${
-                            product.is_featured
-                              ? "bg-amber-100 text-amber-700"
-                              : "bg-gray-100 text-gray-700"
-                          }`}
+                          className={`px-2 py-1 rounded text-xs font-medium ${product.is_featured
+                            ? "bg-amber-100 text-amber-700"
+                            : "bg-gray-100 text-gray-700"
+                            }`}
                         >
                           <Star size={12} />
                         </button>

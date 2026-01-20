@@ -70,6 +70,29 @@ export interface Database {
           created_at?: string
         }
       }
+      product_images: {
+        Row: {
+          id: string
+          product_id: string
+          url: string
+          position: number | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          product_id: string
+          url: string
+          position?: number | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          product_id?: string
+          url?: string
+          position?: number | null
+          created_at?: string
+        }
+      }
       site_content: {
         Row: {
           id: string
@@ -91,6 +114,32 @@ export interface Database {
           title?: string
           description?: string
           updated_at?: string
+        }
+      }
+      testimonials: {
+        Row: {
+          id: string
+          name: string
+          role: string
+          text: string
+          is_active: boolean
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          name: string
+          role: string
+          text: string
+          is_active?: boolean
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          name?: string
+          role?: string
+          text?: string
+          is_active?: boolean
+          created_at?: string
         }
       }
     }
