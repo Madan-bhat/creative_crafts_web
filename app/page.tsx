@@ -15,8 +15,7 @@ export default async function Home() {
 
   const heroTitle = heroCopy?.title || "Handmade Crafts, Made Personal — For Moments That Matter"
   const heroSubtitle = heroCopy?.description || "Custom gifts & wedding keepsakes, hand-crafted with care and emotion."
-  const heroImageUrl =
-    heroMedia?.description || "https://images.unsplash.com/photo-1650917415324-6ab93ceec2e7?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  const heroImageUrl = require("@/assets/images/dashboard_image.jpeg").default.src;
   const heroImageAlt = heroMedia?.title || "Handmade resin art and custom gifts displayed on a wooden table"
 
   return (

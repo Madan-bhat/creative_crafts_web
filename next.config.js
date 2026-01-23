@@ -9,10 +9,19 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
-    domains: [
-      'gukjwxqepfbwkdspkoly.supabase.co',
-      'images.unsplash.com',
-      'cdn.sanity.io',
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'gukjwxqepfbwkdspkoly.supabase.co',
+      },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'cdn.sanity.io',
+      },
     ],
   },
 }

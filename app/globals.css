@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Rubik+Storm&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -39,6 +41,11 @@
     font-feature-settings: "rlig" 1, "calt" 1;
     font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     letter-spacing: 0.01em;
+  }
+
+  .font-rubik-storm {
+    font-family: "Rubik Storm", "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    letter-spacing: 0.02em;
   }
 }
 

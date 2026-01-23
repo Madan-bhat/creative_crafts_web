@@ -312,11 +312,10 @@ export default function TestimonialsPage() {
                     <div className="flex items-center gap-2 flex-shrink-0">
                       <button
                         onClick={() => toggleActive(testimonial)}
-                        className={`px-3 py-1 rounded-full text-xs font-semibold inline-flex items-center gap-1.5 transition-colors ${
-                          testimonial.is_active
+                        className={`px-3 py-1 rounded-full text-xs font-semibold inline-flex items-center gap-1.5 transition-colors ${testimonial.is_active
                             ? "bg-green-100/80 text-green-700 hover:bg-green-100"
                             : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                        }`}
+                          }`}
                       >
                         {testimonial.is_active ? (
                           <>

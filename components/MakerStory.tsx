@@ -12,15 +12,15 @@ export function MakerStory() {
             <span className="text-sm font-semibold uppercase tracking-wide">Our Story</span>
             <Sparkles size={20} />
           </div>
-          
+
           <h2 className="text-3xl md:text-4xl font-bold text-[#1F1A17]">
             Handmade with Heart, Crafted for Your Story
           </h2>
-          
+
           <p className="text-base md:text-lg text-[#5B514A] leading-relaxed max-w-2xl mx-auto">
             Every piece is created in small batches, hand-poured with intention. We believe the best gifts aren't just beautiful—they're personal. Whether it's a wedding keepsake, a custom order for a loved one, or art that brings color to a room, we pour care and emotion into every detail.
           </p>
-          
+
           <div className="grid grid-cols-3 gap-6 pt-6 md:pt-8">
             <div className="space-y-2">
               <p className="text-2xl md:text-3xl font-bold text-[#C67753]">100%</p>

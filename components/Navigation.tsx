@@ -32,7 +32,7 @@ export function Navigation() {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link href="/" className="text-xl font-bold text-[#1F1A17]">
+          <Link href="/" className="text-[32px] font-bold text-[#1F1A17] font-rubik-storm">
             Creative Crafts
           </Link>
 
@@ -42,11 +42,10 @@ export function Navigation() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`text-sm transition-colors ${
-                  link.label === "Catalog"
-                    ? "text-[#C67753] font-semibold border-b-2 border-[#C67753]"
-                    : "text-[#5B514A] hover:text-[#C67753]"
-                }`}
+                className={`text-sm transition-colors ${link.label === "Catalog"
+                  ? "text-[#C67753] font-semibold border-b-2 border-[#C67753]"
+                  : "text-[#5B514A] hover:text-[#C67753]"
+                  }`}
               >
                 {link.label}
               </Link>
