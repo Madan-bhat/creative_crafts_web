@@ -11,35 +11,9 @@ interface AboutSectionProps {
   testimonials?: Testimonial[]
 }
 
-const DEFAULT_TESTIMONIALS = [
-  {
-    id: "1",
-    name: "Priya & Rahul",
-    text: "The wedding keepsake box was absolutely perfect. Such attention to detail!",
-    role: "Wedding couple",
-    is_active: true,
-    created_at: new Date().toISOString(),
-  },
-  {
-    id: "2",
-    name: "Ananya",
-    text: "Ordered custom resin coasters and they turned out better than I imagined.",
-    role: "Gift customer",
-    is_active: true,
-    created_at: new Date().toISOString(),
-  },
-  {
-    id: "3",
-    name: "Meera",
-    text: "Beautiful handmade frames for our anniversary. Highly recommend!",
-    role: "Happy customer",
-    is_active: true,
-    created_at: new Date().toISOString(),
-  },
-]
 
-export function AboutSection({ testimonials = DEFAULT_TESTIMONIALS }: AboutSectionProps) {
-  const displayTestimonials = (testimonials?.length > 0 ? testimonials : DEFAULT_TESTIMONIALS).slice(0, 3)
+export function AboutSection({ testimonials }: AboutSectionProps) {
+  const displayTestimonials = testimonials?.slice(0, 3) || []
 
   return (
     <section id="about" className="py-16 md:py-24 bg-gradient-to-b from-[#F5F5F5] to-white">
@@ -72,7 +46,7 @@ export function AboutSection({ testimonials = DEFAULT_TESTIMONIALS }: AboutSecti
               </div>
               <div className="mt-8">
                 <Link
-                  href="https://instagram.com"
+                  href="https://www.instagram.com/creative__.crafts?igsh=MXViNXo5YnRnb2h2eA=="
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 text-[#C67753] hover:text-[#1F1A17] transition-colors"
@@ -96,7 +70,8 @@ export function AboutSection({ testimonials = DEFAULT_TESTIMONIALS }: AboutSecti
             </div>
           </div>
 
-          {/* Testimonials */}
+          {/* Testimonials - Only show if testimonials exist from backend */}
+          {displayTestimonials.length > 0 && (
           <div className="mb-8">
             <h3 className="text-2xl md:text-3xl font-bold text-[#1F1A17] text-center mb-3">
               What our customers say
@@ -136,6 +111,7 @@ export function AboutSection({ testimonials = DEFAULT_TESTIMONIALS }: AboutSecti
               ))}
             </div>
           </div>
+          )}
         </div>
       </div>
     </section>

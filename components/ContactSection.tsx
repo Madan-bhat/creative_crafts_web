@@ -108,21 +108,6 @@ export function ContactSection() {
                   <p className="text-[#5B514A] mb-6">
                     Fast answers on availability, pricing, and timelines.
                   </p>
-                  <Button
-                    size="lg"
-                    className="bg-[#C67753] hover:bg-[#b96949] text-white w-full shadow-sm"
-                    asChild
-                  >
-                    <Link
-                      href="https://wa.me/1234567890"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-2 justify-center"
-                    >
-                      <MessageCircle size={20} />
-                      Chat on WhatsApp
-                    </Link>
-                  </Button>
                 </CardContent>
               </Card>
 
@@ -133,12 +118,12 @@ export function ContactSection() {
                   <div>
                     <h4 className="font-semibold text-[#1F1A17] mb-1">Instagram</h4>
                     <Link
-                      href="https://instagram.com"
+                      href="https://www.instagram.com/creative__.crafts?igsh=MXViNXo5YnRnb2h2eA=="
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-[#5B514A] hover:text-[#C67753] transition-colors"
                     >
-                      @creativecrafts
+                      @creative_.crafts
                     </Link>
                   </div>
                 </div>
@@ -151,7 +136,7 @@ export function ContactSection() {
                       href="mailto:hello@creativecrafts.com"
                       className="text-[#5B514A] hover:text-[#C67753] transition-colors"
                     >
-                      hello@creativecrafts.com
+                      creativecraftsco.in@gmail.com
                     </a>
                   </div>
                 </div>
@@ -161,7 +146,7 @@ export function ContactSection() {
                   <div>
                     <h4 className="font-semibold text-[#1F1A17] mb-1">Location</h4>
                     <p className="text-[#5B514A]">
-                      Mumbai, India<br />
+                      Udupi, India<br />
                       Serving customers nationwide
                     </p>
                   </div>

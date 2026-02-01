@@ -32,7 +32,7 @@ export function Navigation() {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link href="/" className="text-[32px] font-bold text-[#1F1A17] font-rubik-storm">
+          <Link href="/" className="text-[32px] font-black text-[#1F1A17] font-rubik-storm">
             Creative Crafts
           </Link>
 
