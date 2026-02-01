@@ -42,9 +42,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
     .slice(0, 3)
 
   const categoryName = product.categories?.name ?? "Handcrafted"
-  const whatsappLink = `https://wa.me/1234567890?text=${encodeURIComponent(
-    `Hi! I love the ${product.name}. Can you customize it for me?`
-  )}`
+  const whatsappLink = `https://www.instagram.com/creative__.crafts?igsh=MXViNXo5YnRnb2h2eA==`
 
   return (
     <main className="min-h-screen bg-white">

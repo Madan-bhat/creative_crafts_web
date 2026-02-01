@@ -162,7 +162,7 @@ export function CatalogClient({ products, categories, showPagination = true }: C
                         asChild
                       >
                         <Link
-                          href={`https://wa.me/1234567890?text=${encodeURIComponent(`Hi, I'm interested in ${product.name}`)}`}
+                          href={`https://www.instagram.com/creative__.crafts?igsh=MXViNXo5YnRnb2h2eA==`}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="flex items-center gap-2 justify-center"
@@ -195,8 +195,8 @@ export function CatalogClient({ products, categories, showPagination = true }: C
                       key={page}
                       onClick={() => setCurrentPage(page)}
                       className={`px-3 py-1 rounded text-sm font-medium transition-colors ${currentPage === page
-                          ? "bg-[#C67753] text-white"
-                          : "border border-[#C67753] text-[#1F1A17] hover:bg-[#F1E6DD]"
+                        ? "bg-[#C67753] text-white"
+                        : "border border-[#C67753] text-[#1F1A17] hover:bg-[#F1E6DD]"
                         }`}
                     >
                       {page}

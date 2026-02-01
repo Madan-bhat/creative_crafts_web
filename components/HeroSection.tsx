@@ -63,7 +63,7 @@ export function HeroSection({
                 asChild
               >
                 <Link
-                  href="https://wa.me/1234567890"
+                  href="https://www.instagram.com/creative__.crafts?igsh=MXViNXo5YnRnb2h2eA=="
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-2 justify-center"
