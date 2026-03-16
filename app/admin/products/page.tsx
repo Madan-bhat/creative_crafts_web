@@ -199,9 +199,16 @@ export default function ProductsPage() {
 
       return data.publicUrl
     } catch (error) {
+      console.error("[admin/products] image upload failed", {
+        error,
+        fileName: file.name,
+        fileSize: file.size,
+        fileType: file.type,
+      })
+      const message = error instanceof Error ? error.message : "Unknown upload error"
       toast({
         title: "Error",
-        description: "Failed to upload image",
+        description: `Failed to upload image: ${message}`,
         variant: "destructive",
       })
       return null
@@ -223,14 +230,17 @@ export default function ProductsPage() {
 
       if (imageFile) {
         const uploadedUrl = await uploadImage(imageFile)
-        if (uploadedUrl) {
-          imageUrl = uploadedUrl
+        if (!uploadedUrl) {
+          throw new Error("Primary image upload failed. Please use a smaller file or try again.")
         }
+
+        imageUrl = uploadedUrl
       }
 
       const productData = {
         ...formData,
-        image_url: imageUrl,
+        price: formData.price.trim() || null,
+        image_url: imageUrl.trim() || null,
       }
 
       if (editingProduct) {
@@ -272,9 +282,16 @@ export default function ProductsPage() {
       handleCloseDialog()
       fetchProducts()
     } catch (error) {
+      console.error("[admin/products] save failed", {
+        error,
+        editingProductId: editingProduct?.id ?? null,
+        hasPrimaryImageFile: Boolean(imageFile),
+        extraImagesCount: extraImageFiles.length,
+      })
+      const message = error instanceof Error ? error.message : "Failed to save product"
       toast({
         title: "Error",
-        description: "Failed to save product",
+        description: message,
         variant: "destructive",
       })
     } finally {
